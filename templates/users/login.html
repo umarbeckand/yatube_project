@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Войти{% endblock %}
+{% load user_filters %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 p-5">
+    <div class="card">
+      <div class="card-header">Войти на сайт</div>
+      <div class="card-body">
+        {% if form.errors %}
+          {% for field in form %}
+            {% for error in field.errors %}
+              <div class="alert alert-danger">{{ error|escape }}</div>
+            {% endfor %}
+          {% endfor %}
+        {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="form-group">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field|addclass:'form-control' }}
+            </div>
+          {% endfor %}
+          <button type="submit" class="btn btn-primary">Войти</button>
+          <a href="{% url 'users:password_reset_form' %}" class="btn btn-link">Забыли пароль?</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

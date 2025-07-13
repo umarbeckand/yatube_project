@@ -31,8 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-   'users.apps.UsersConfig',
-   'posts.apps.PostsConfig',
+    'core',
+    'users.apps.UsersConfig',
+    'posts.apps.PostsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                   'core.context_processors.year.year'
             ],
         },
     },
@@ -122,3 +124,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'posts:index'
+LOGOUT_REDIRECT_URL = 'posts:index'  # <-- можно и закомментировать
+
+
+# Настройка почтового бэкенда для записи в файлы
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+# Указываем директорию для сохранения писем
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')  # Путь к директорииs
+

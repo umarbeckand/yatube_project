@@ -1,15 +1,28 @@
-{% for post in posts %}
-  <ul>
-    <li>
-      Автор: {{ post.author.get_full_name }}
-    </li>
-    <li>
-      Дата публикации: {{ post.pub_date|date:"d E Y" }}
-    </li>
-  </ul>
-  <p>{{ post.text }}</p>
-  {% if post.group %}
-    <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
-  {% endif %}
-  {% if not forloop.last %}<hr>{% endif %}
-{% endfor %}
+{% extends "base.html" %}
+
+{% block title %}Последние обновления на сайте{% endblock %}
+
+{% block content %}
+   {% for post in page_obj.object_list %}
+        <div class="post">
+            <h2>{{ post.title }}</h2>
+
+            <!-- 🔗 Ссылка на группу поста -->
+            {% if post.group %}
+              <p>
+                Группа: 
+                <a href="{% url 'posts:group_list' slug=post.group.slug %}">
+                  {{ post.group.title }}
+                </a>
+              </p>
+            {% endif %}
+
+            <p>{{ post.content }}</p>
+            <small>{{ post.pub_date }}</small>
+        </div>
+    {% endfor %}
+
+    <!-- Включаем пагинацию -->
+   {% include "includes/paginator.html" %}
+
+{% endblock %}

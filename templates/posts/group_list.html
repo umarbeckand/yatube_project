@@ -1,11 +1,19 @@
-<h1>{{ group.title }}</h1>
-<p>{{ group.description }}</p>
+{% extends "base.html" %}
 
-{% for post in posts %}
-  <ul>
-    <li>Автор: {{ post.author.get_full_name }}</li>
-    <li>Дата публикации: {{ post.pub_date|date:"d E Y" }}</li>
-  </ul>
-  <p>{{ post.text }}</p>
-  {% if not forloop.last %}<hr>{% endif %}
-{% endfor %}
+{% block title %}Записи группы: {{ group.name }}{% endblock %}
+
+{% block content %}
+    <h1>{{ group.name }}</h1>
+    <p>{{ group.description }}</p>
+
+    {% for post in page_obj %}
+        <div class="post">
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+            <small>{{ post.pub_date }}</small>
+        </div>
+    {% endfor %}
+
+    <!-- Включаем пагинацию -->
+    {% include 'posts/includes/paginator.html' %}
+{% endblock %}

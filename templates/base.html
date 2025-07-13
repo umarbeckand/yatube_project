@@ -1,4 +1,6 @@
 <!-- templates/base.html -->
+
+
 <!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -11,14 +13,27 @@
     <header>
       {% include 'includes/header.html' %}
     </header>
+<nav>
+  {% if user.is_authenticated %}
+    Привет, {{ user.username }}! |
+    <a href="{% url 'users:logout' %}">Выйти</a> |
+    <a href="{% url 'posts:index' %}">Главная</a> |
+    <a href="{% url 'posts:group_list' slug='example-slug' %}">Группы</a>
+  {% else %}
+    <a href="{% url 'users:login' %}">Войти</a> |
+    <a href="{% url 'users:signup' %}">Регистрация</a>
+  {% endif %}
+</nav>
 
     <main>
       {% block content %}
+      
       Контент скоро появится!
       {% endblock %}
     </main>
 
     <footer>
+    <p>&copy; {{ year }} Yatube. Все права защищены. </p>
       {% include 'includes/footer.html' %}
     </footer>
   </body>
