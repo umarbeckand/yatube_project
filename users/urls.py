@@ -10,6 +10,7 @@ from . import views
 app_name = 'users'
 
 urlpatterns = [
+ path('contact/', views.user_contact, name='user_contact'),
   path('signup/', views.SignUpView.as_view(), name='signup'), 
     path(
         'login/',
