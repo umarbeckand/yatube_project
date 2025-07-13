@@ -59,6 +59,7 @@ ROOT_URLCONF = 'yatube.urls'
 
 TEMPLATES = [
     {
+
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
@@ -126,6 +127,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
 
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'posts:index'
@@ -137,4 +140,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 
 # Указываем директорию для сохранения писем
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')  # Путь к директорииs
+
 
