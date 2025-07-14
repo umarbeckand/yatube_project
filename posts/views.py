@@ -6,6 +6,14 @@ from .models import Post, Group
 
 User = get_user_model()  # ← добавлено!
 
+
+form = PostForm(
+    request.POST or None,
+    files=request.FILES or None,
+    instance=post  # если редактирование
+)
+
+
 def index(request):
     post_list = Post.objects.all().order_by('-pub_date')
     paginator = Paginator(post_list, 10)
@@ -51,4 +59,4 @@ def post_detail(request, post_id):
 @login_required
 def post_create(request):
     return render(request, 'posts/create_post.html')
-    
+

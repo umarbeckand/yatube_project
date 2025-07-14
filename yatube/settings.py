@@ -24,13 +24,17 @@ SECRET_KEY = '--1l9yd+@uc))8ts(c0=njp*y)(a(7)w&s&xyb4c9x6zzo3%^5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+    
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'sorl.thumbnail',
     'about',   
     'core',
     'users.apps.UsersConfig',
@@ -129,6 +133,9 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'posts:index'
@@ -140,5 +147,20 @@ EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 
 # Указываем директорию для сохранения писем
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')  # Путь к директорииs
+
+
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
+
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
+
 
 
