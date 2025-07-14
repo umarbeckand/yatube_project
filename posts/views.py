@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
-
+from django.contrib.auth.decorators import login_required
 from .models import Post, Group
 
 User = get_user_model()  # ← добавлено!
@@ -46,3 +46,9 @@ def post_detail(request, post_id):
         'author_posts_count': author_posts_count
     }
     return render(request, 'posts/post_detail.html', context)
+
+
+@login_required
+def post_create(request):
+    return render(request, 'posts/create_post.html')
+    
