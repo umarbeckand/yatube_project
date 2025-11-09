@@ -1,6 +1,5 @@
-{% load thumbnail %}
 {% extends "base.html" %}
-
+{% load thumbnail %}
 
 {% block title %}Последние обновления на сайте{% endblock %}
 
@@ -8,23 +7,26 @@
    {% for post in page_obj.object_list %}
         <div class="post">
             
-          {% thumbnail post.image "960x339" crop="center" as im %}
-  <img src="{{ im.url }}">
-{% endthumbnail %}
-<h2>{{ post.title }}</h2>
+          {% if post.image %}
+            {% thumbnail post.image "960x339" crop="center" as im %}
+              <img src="{{ im.url }}">
+            {% endthumbnail %}
+          {% endif %}
 
-            <!-- 🔗 Ссылка на группу поста -->
-            {% if post.group %}
-              <p>
-                Группа: 
-                <a href="{% url 'posts:group_list' slug=post.group.slug %}">
-                  {{ post.group.title }}
-                </a>
-              </p>
-            {% endif %}
+          <h2>{{ post.title }}</h2>
 
-            <p>{{ post.content }}</p>
-            <small>{{ post.pub_date }}</small>
+          <!-- 🔗 Ссылка на группу поста -->
+          {% if post.group %}
+            <p>
+              Группа: 
+              <a href="{% url 'posts:group_list' slug=post.group.slug %}">
+                {{ post.group.title }}
+              </a>
+            </p>
+          {% endif %}
+
+          <p>{{ post.content }}</p>
+          <small>{{ post.pub_date }}</small>
         </div>
     {% endfor %}
 

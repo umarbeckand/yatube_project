@@ -3,15 +3,12 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from .models import Post, Group
+from .forms import PostForm
 
 User = get_user_model()  # ← добавлено!
 
 
-form = PostForm(
-    request.POST or None,
-    files=request.FILES or None,
-    instance=post  # если редактирование
-)
+
 
 
 def index(request):
@@ -55,8 +52,20 @@ def post_detail(request, post_id):
     }
     return render(request, 'posts/post_detail.html', context)
 
-
 @login_required
 def post_create(request):
-    return render(request, 'posts/create_post.html')
+    if request.method == 'POST':
+        form = PostForm(request.POST, files=request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('posts:profile', username=request.user.username)
+    else:
+        form = PostForm()
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'posts/create_post.html', context)
 
